@@ -1,12 +1,11 @@
 {
   "name": "@agoyu/procaser",
   "version": "0.1.0",
-  "description": "",
+  "description": "To combine processing into a single callback function which can be handled by a switch-case statement.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "prepare": "lib/index.js",
     "test": "jest --config jestconfig.json"
   },
   "keywords": [
