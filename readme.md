@@ -83,11 +83,11 @@ processJob(willSuccess) {
 }
 
 /**
- * Send the signal to the processor after 2 seconds
+ * Send the signal to the Procaser after 2 seconds
  * @param {Procaser} proc 
  * @param {boolean} willSuccess 
  */
- requestProcess(proc) {
+ requestProcess(proc, willSuccess) {
   setTimeout(() => {
     if (willSuccess) {
       proc.signal('success');
