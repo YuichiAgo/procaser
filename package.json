@@ -1,6 +1,6 @@
 {
   "name": "@agoyu/procaser",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "To combine processing into a single callback function which can be handled by a switch-case statement.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -13,6 +13,10 @@
     "state pattern"
   ],
   "author": "Yuichi Ago",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YuichiAgo/procaser"
+  },
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^29.2.5",
