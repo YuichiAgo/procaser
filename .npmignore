@@ -3,4 +3,8 @@
 /src
 tsconfig.json
 jestconfig.json
+
 .gitignore
+.editorconfig
+.eslintrc.js
+.prettierrc.js
