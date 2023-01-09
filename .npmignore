@@ -8,3 +8,5 @@ jestconfig.json
 .editorconfig
 .eslintrc.js
 .prettierrc.js
+
+.vscode
