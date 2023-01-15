@@ -1,4 +1,4 @@
-import { Procaser } from '../index';
+import { Procaser } from '../src/index';
 
 afterEach(() => {
   // restore the spy created with spyOn
