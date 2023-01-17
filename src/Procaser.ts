@@ -14,19 +14,47 @@ export class Procaser {
   private _exited = false;
   private _inCallBack = false;
   private _stackCt = 0;
-  BOOT = 'BOOT';
-  EXIT = 'EXIT';
-  START = 'start';
-  END = 'end';
-  CONFIRM = 'confirm';
-  CANCEL = 'cancel';
-  ERROR = 'error';
-  MAX_STACK = 10;
+  private static readonly _BOOT = 'BOOT';
+  private static readonly _EXIT = 'EXIT';
+  private static readonly _START = 'start';
+  private static readonly _END = 'end';
+  private static readonly _CONFIRM = 'confirm';
+  private static readonly _CANCEL = 'cancel';
+  private static readonly _ERROR = 'error';
+  private static readonly _MAX_STACK = 10;
+
+  get BOOT(): string {
+    return Procaser._BOOT;
+  }
+
+  get EXIT(): string {
+    return Procaser._EXIT;
+  }
+
+  get START(): string {
+    return Procaser._START;
+  }
+
+  get END(): string {
+    return Procaser._END;
+  }
+
+  get CONFIRM(): string {
+    return Procaser._CONFIRM;
+  }
+
+  get CANCEL(): string {
+    return Procaser._CANCEL;
+  }
+
+  get ERROR(): string {
+    return Procaser._ERROR;
+  }
 
   /**
    * constructor
    * @param props Property object dealt with in the procaser instance
-   * @param callback Function to be called back when a step or state is changed
+   * @param callback Function to be called back when the step or state is changed
    */
   constructor(
     props: object | null = {},
@@ -57,8 +85,8 @@ export class Procaser {
     this._stackCt--;
     this._inCallBack = false;
 
-    if (this._stackCt > this.MAX_STACK) {
-      console.warn(`callback stack exceeded ${this.MAX_STACK}`);
+    if (this._stackCt > Procaser._MAX_STACK) {
+      console.warn(`callback stack exceeded ${Procaser._MAX_STACK}`);
       this.exit();
     }
   }
@@ -189,7 +217,7 @@ export class Procaser {
    * Apply state to the current step.
    * @param state Any state name
    * @param props Values to be assigned to the properties
-   * @param wait Millisecond time before the callback on the signaled step starting. If negative, immediately.
+   * @param wait Millisecond time before the callback on the current step with state starts. If negative, immediately.
    */
   signal(state: string, props: object = {}, wait: number = -1): void {
     this._respond(this._currentStepName, state, props, wait);
@@ -198,7 +226,7 @@ export class Procaser {
   /**
    * Apply the 'confirm' state to the current step.
    * @param props Values to be assigned to the properties
-   * @param wait Millisecond time before the callback on the signaled step starting. If negative, immediately.
+   * @param wait Millisecond time before the callback on the current step with state starts. If negative, immediately.
    */
   confirm(props: object = {}, wait: number = -1): void {
     this._respond(this._currentStepName, this.CONFIRM, props, wait);
@@ -207,7 +235,7 @@ export class Procaser {
   /**
    * Apply the 'cancel' state to the current step.
    * @param props Values to be assigned to the properties
-   * @param wait Millisecond time before the callback on the signaled step starting. If negative, immediately.
+   * @param wait Millisecond time before the callback on the current step with state starts. If negative, immediately.
    */
   cancel(props: object = {}, wait: number = -1): void {
     this._respond(this._currentStepName, this.CANCEL, props, wait);
@@ -216,7 +244,7 @@ export class Procaser {
   /**
    * Apply the 'error' state to the current step.
    * @param props Values to be assigned to the properties
-   * @param wait Millisecond time before the callback on the signaled step starting. If negative, immediately.
+   * @param wait Millisecond time before the callback on the current step with state starts. If negative, immediately.
    */
   error(stepName: string, props: object = {}, wait: number = -1): void {
     this._respond(stepName, this.ERROR, props, wait);
