@@ -98,7 +98,7 @@ test('wait timer', async () => {
 test('popup response', async () => {
   const panel = {
     click(proc: Procaser) {
-      proc.goTo('Confirm');
+      proc.next('Confirm');
     },
   };
   const popup = {
