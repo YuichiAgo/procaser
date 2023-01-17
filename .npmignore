@@ -11,3 +11,4 @@ jestconfig.json
 .prettierrc.js
 
 .vscode
+.husky
