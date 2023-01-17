@@ -152,18 +152,9 @@ export class Procaser {
       state: undefined,
       wait,
     });
-    return true;
-  }
-
-  goTo(stepName: string, props: object = {}, wait: number = -1): boolean {
-    if ((stepName ?? '').length <= 0) {
-      return false;
+    if (!this._inCallBack) {
+      void this._execSteps();
     }
-    this.next(stepName, props, wait);
-    if (this._inCallBack) {
-      return true;
-    }
-    void this._execSteps();
     return true;
   }
 
