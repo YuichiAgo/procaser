@@ -244,7 +244,7 @@ test('first step', () => {
   let procStep: string = '';
   let procProps: object | undefined;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const proc = new Procaser(
+  new Procaser(
     { name: 'Potesuke', email: 'pote@example.com' },
     (proc: Procaser, step: string, props: object) => {
       switch (step) {
@@ -267,37 +267,34 @@ test('first step', () => {
 
 test('props', () => {
   const obj = { name: 'Potesuke', email: 'pote@example.com' };
-  const proc = new Procaser(
-    obj,
-    (proc: Procaser, step: string, props: object) => {
-      switch (step) {
-        case proc.BOOT:
-          expect(props).toStrictEqual({
-            name: 'Potesuke',
-            email: 'pote@example.com',
-          });
-          proc.next('Prepare', { prepared: true });
-          break;
-        case 'start@Prepare':
-          expect(props).toStrictEqual({
-            prepared: true,
-            name: 'Potesuke',
-            email: 'pote@example.com',
-          });
-          proc.next('Write', { content: 'no idea', prepared: false });
-          break;
-        case 'start@Write':
-          expect(props).toStrictEqual({
-            prepared: false,
-            name: 'Potesuke',
-            email: 'pote@example.com',
-            content: 'no idea',
-          });
-          proc.exit();
-          break;
-      }
+  new Procaser(obj, (proc: Procaser, step: string, props: object) => {
+    switch (step) {
+      case proc.BOOT:
+        expect(props).toStrictEqual({
+          name: 'Potesuke',
+          email: 'pote@example.com',
+        });
+        proc.next('Prepare', { prepared: true });
+        break;
+      case 'start@Prepare':
+        expect(props).toStrictEqual({
+          prepared: true,
+          name: 'Potesuke',
+          email: 'pote@example.com',
+        });
+        proc.next('Write', { content: 'no idea', prepared: false });
+        break;
+      case 'start@Write':
+        expect(props).toStrictEqual({
+          prepared: false,
+          name: 'Potesuke',
+          email: 'pote@example.com',
+          content: 'no idea',
+        });
+        proc.exit();
+        break;
     }
-  );
+  });
 });
 
 test('step array', () => {
@@ -339,7 +336,7 @@ test('step array', () => {
 });
 
 test('infinite loop', () => {
-  const proc = new Procaser(
+  new Procaser(
     {
       leftCt: 0,
       rightCt: 0,
