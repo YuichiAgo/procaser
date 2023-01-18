@@ -23,30 +23,37 @@ export class Procaser {
   private static readonly _ERROR = 'error';
   private static readonly _MAX_STACK = 10;
 
+  /**
+   * returns 'BOOT'
+   */
   get BOOT(): string {
     return Procaser._BOOT;
   }
 
+  /**
+   * returns 'EXIT'
+   */
   get EXIT(): string {
     return Procaser._EXIT;
   }
 
-  get START(): string {
-    return Procaser._START;
-  }
-
-  get END(): string {
-    return Procaser._END;
-  }
-
+  /**
+   * returns 'confirm'
+   */
   get CONFIRM(): string {
     return Procaser._CONFIRM;
   }
 
+  /**
+   * returns 'cancel'
+   */
   get CANCEL(): string {
     return Procaser._CANCEL;
   }
 
+  /**
+   * returns 'error'
+   */
   get ERROR(): string {
     return Procaser._ERROR;
   }
@@ -108,12 +115,12 @@ export class Procaser {
     }
     const endStep = {
       name: this._currentStepName,
-      state: 'end',
+      state: Procaser._END,
       wait: -1,
     };
     const startStep = {
       name: nextState.name,
-      state: 'start',
+      state: Procaser._START,
       wait: nextState.wait,
     };
     this._currentStepName = nextState.name;
