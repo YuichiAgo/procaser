@@ -60,7 +60,7 @@ export class Procaser {
 
   /**
    * constructor
-   * @param props Property object dealt with in the procaser instance
+   * @param props The object you can deal with in the Procaser instance.
    * @param callback Function to be called back when the step or state is changed
    */
   constructor(
@@ -170,7 +170,7 @@ export class Procaser {
   }
 
   /**
-   * Moving on to the next step
+   * Moving on to the next step, the callback passes through "end@currentStep" and "start@nextStep" case statements
    * @param stepName Next step name
    * @param props Values to be assigned to the properties
    * @param wait Millisecond time before the callback on the next step starting. If negative, immediately.
@@ -180,9 +180,9 @@ export class Procaser {
     stepName: string | undefined,
     props: object = {},
     wait: number = -1
-  ): boolean {
+  ): this {
     if (this._exited) {
-      return false;
+      return this;
     }
     this.assignProps(props);
     this._nextSteps.push({
@@ -193,11 +193,12 @@ export class Procaser {
     if (!this._inCallBack) {
       void this._execSteps();
     }
-    return true;
+    return this;
   }
 
   /**
-   * Terminates the process, at which time the current step end and exit are called
+   * Terminates the process, the callback passes through "end@currentStep" and proc.EXIT case statements
+   * @returns this
    */
   exit(): this {
     this.next(undefined);
@@ -225,37 +226,37 @@ export class Procaser {
   }
 
   /**
-   * Apply state to the current step.
+   * Apply state to the current step, the callback passes through "yourState@currentStep" case statement
    * @param state Any state name
    * @param props Values to be assigned to the properties
-   * @param wait Millisecond time before the callback on the current step with state starts. If negative, immediately.
+   * @param wait Millisecond time before the callback passes through the "yourState@currentStep" case statement. If negative, immediately.
    */
   signal(state: string, props: object = {}, wait: number = -1): this {
     return this._respond(this._currentStepName, state, props, wait);
   }
 
   /**
-   * Apply the 'confirm' state to the current step.
+   * Apply the 'confirm' state to the current step, the callback passes through "confirm@currentStep" case statement
    * @param props Values to be assigned to the properties
-   * @param wait Millisecond time before the callback on the current step with state starts. If negative, immediately.
+   * @param wait Millisecond time before the callback passes through the "confirm@currentStep" case statement. If negative, immediately.
    */
   confirm(props: object = {}, wait: number = -1): this {
     return this._respond(this._currentStepName, this.CONFIRM, props, wait);
   }
 
   /**
-   * Apply the 'cancel' state to the current step.
+   * Apply the 'cancel' state to the current step, the callback passes through "cancel@currentStep" case statement
    * @param props Values to be assigned to the properties
-   * @param wait Millisecond time before the callback on the current step with state starts. If negative, immediately.
+   * @param wait Millisecond time before the callback passes through the "cancel@currentStep" case statement. If negative, immediately.
    */
   cancel(props: object = {}, wait: number = -1): this {
     return this._respond(this._currentStepName, this.CANCEL, props, wait);
   }
 
   /**
-   * Apply the 'error' state to the current step.
+   * Apply the 'error' state to the current step, the callback passes through "error@currentStep" case statement
    * @param props Values to be assigned to the properties
-   * @param wait Millisecond time before the callback on the current step with state starts. If negative, immediately.
+   * @param wait Millisecond time before the callback passes through the "error@currentStep" case statement. If negative, immediately.
    */
   error(stepName: string, props: object = {}, wait: number = -1): this {
     return this._respond(stepName, this.ERROR, props, wait);
