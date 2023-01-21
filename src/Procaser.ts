@@ -79,13 +79,14 @@ export class Procaser {
     this._onBoot();
   }
 
-  private _onBoot(): void {
+  private _onBoot(): this {
     this._currentStepName = this._stepString = this.BOOT;
     this._doCallBack();
     void this._execSteps();
+    return this;
   }
 
-  private _doCallBack(): void {
+  private _doCallBack(): this {
     this._inCallBack = true;
     this._stackCt++;
     this._callback(this, this._stepString, this._props);
@@ -96,6 +97,7 @@ export class Procaser {
       console.warn(`callback stack exceeded ${Procaser._MAX_STACK}`);
       this.exit();
     }
+    return this;
   }
 
   private _nextStepStates(): StepState[] | undefined {
@@ -162,8 +164,9 @@ export class Procaser {
     }
   }
 
-  assignProps(props: object = {}): void {
+  assignProps(props: object = {}): this {
     Object.assign(this._props, props);
+    return this;
   }
 
   /**
@@ -171,7 +174,7 @@ export class Procaser {
    * @param stepName Next step name
    * @param props Values to be assigned to the properties
    * @param wait Millisecond time before the callback on the next step starting. If negative, immediately.
-   * @returns Step transition accepted
+   * @returns this
    */
   next(
     stepName: string | undefined,
@@ -196,9 +199,10 @@ export class Procaser {
   /**
    * Terminates the process, at which time the current step end and exit are called
    */
-  exit(): void {
+  exit(): this {
     this.next(undefined);
     void this._execSteps();
+    return this;
   }
 
   private _respond(
@@ -206,9 +210,9 @@ export class Procaser {
     state: string | undefined,
     props: object = {},
     wait: number = -1
-  ): boolean {
+  ): this {
     if (this._exited) {
-      return false;
+      return this;
     }
     this._nextSteps.push({
       name: stepName,
@@ -217,7 +221,7 @@ export class Procaser {
     });
     this.assignProps(props);
     void this._execSteps();
-    return true;
+    return this;
   }
 
   /**
@@ -226,8 +230,8 @@ export class Procaser {
    * @param props Values to be assigned to the properties
    * @param wait Millisecond time before the callback on the current step with state starts. If negative, immediately.
    */
-  signal(state: string, props: object = {}, wait: number = -1): void {
-    this._respond(this._currentStepName, state, props, wait);
+  signal(state: string, props: object = {}, wait: number = -1): this {
+    return this._respond(this._currentStepName, state, props, wait);
   }
 
   /**
@@ -235,8 +239,8 @@ export class Procaser {
    * @param props Values to be assigned to the properties
    * @param wait Millisecond time before the callback on the current step with state starts. If negative, immediately.
    */
-  confirm(props: object = {}, wait: number = -1): void {
-    this._respond(this._currentStepName, this.CONFIRM, props, wait);
+  confirm(props: object = {}, wait: number = -1): this {
+    return this._respond(this._currentStepName, this.CONFIRM, props, wait);
   }
 
   /**
@@ -244,8 +248,8 @@ export class Procaser {
    * @param props Values to be assigned to the properties
    * @param wait Millisecond time before the callback on the current step with state starts. If negative, immediately.
    */
-  cancel(props: object = {}, wait: number = -1): void {
-    this._respond(this._currentStepName, this.CANCEL, props, wait);
+  cancel(props: object = {}, wait: number = -1): this {
+    return this._respond(this._currentStepName, this.CANCEL, props, wait);
   }
 
   /**
@@ -253,21 +257,23 @@ export class Procaser {
    * @param props Values to be assigned to the properties
    * @param wait Millisecond time before the callback on the current step with state starts. If negative, immediately.
    */
-  error(stepName: string, props: object = {}, wait: number = -1): void {
-    this._respond(stepName, this.ERROR, props, wait);
+  error(stepName: string, props: object = {}, wait: number = -1): this {
+    return this._respond(stepName, this.ERROR, props, wait);
   }
 
-  saveCurrentStep(): void {
+  saveCurrentStep(): this {
     this._savedStep = this._stepString;
+    return this;
   }
 
   savedStep(): string | undefined {
     return this._savedStep;
   }
 
-  defaultWarn(): void {
+  defaultWarn(): this {
     console.warn(
       `Procaser: step "${this._stepString ?? '*null*'}" was not processed.`
     );
+    return this;
   }
 }
